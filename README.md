@@ -1,4 +1,10 @@
 # Picturefill
+
+## This is a jQuery Port
+This is a port of Scott Jehl's [picturefill.js](https://github.com/scottjehl/picturefill) script for responsive images. It is slightly smaller, adds [callbacks](#callbacks), and adds id, title, and [data-](#data_attributes) attributes for the resulting images. 
+
+## Intro
+
 A Responsive Images approach that you can use today that mimics the [proposed picture element](http://www.w3.org/TR/2013/WD-html-picture-element-20130226/) using `span`s, for safety sake.
 
 
@@ -11,14 +17,14 @@ A Responsive Images approach that you can use today that mimics the [proposed pi
 
 ## Size and delivery
 
-Currently, `picturefill.js` compresses to around 498bytes (~0.5kb), after minify and gzip. To minify, you might try these online tools: [Uglify](http://marijnhaverbeke.nl/uglifyjs), [Yahoo Compressor](http://refresh-sf.com/yui/), or [Closure Compiler](http://closure-compiler.appspot.com/home). Serve with gzip compression.
+Currently, `jquery.picturefill.js` compresses to around 640bytes (~0.625kb), after minify and gzip. To minify, you might try these online tools: [Uglify](http://marijnhaverbeke.nl/uglifyjs), [Yahoo Compressor](http://refresh-sf.com/yui/), or [Closure Compiler](http://closure-compiler.appspot.com/home). Serve with gzip compression.
 
 ## Markup pattern and explanation
 
 Mark up your responsive images like this.
 
 ```html
-	<span data-picture data-alt="A giant stone face at The Bayon temple in Angkor Thom, Cambodia">
+	<span data-picture data-alt="A giant stone face at The Bayon temple in Angkor Thom, Cambodia" data-id="babylon_stone">
 		<span data-src="small.jpg"></span>
 		<span data-src="medium.jpg"     data-media="(min-width: 400px)"></span>
 		<span data-src="large.jpg"      data-media="(min-width: 800px)"></span>
@@ -39,11 +45,12 @@ Each `span[data-src]` element’s `data-media` attribute accepts any and all CSS
 
 Notes on the markup above...
 
-* The `span[data-picture]` element's `alt` attribute is used as alternate text for the `img` element that picturefill generates upon a successful source match.
+* The `span[data-picture]` element's `data-alt`, `data-id`, and `data-title` attributes are used as the `alt`, `id`, and `title` attributes for the `img` element that picturefill generates upon a successful source match.
 * The `span[data-picture]` element can contain any number of `span[data-source]` elements. The above example may contain more than the average situation may call for.
 * Each `span[data-src]` element must have a `data-src` attribute specifying the image path.
 * It's generally a good idea to include one source element with no `media` qualifier, so it'll apply everywhere - typically a mobile-optimized image is ideal here.
 * Each `[data-src]` element can have an optional `[data-media]` attribute to make it apply in specific media settings. Both media types and queries can be used, like a native `media` attribute, but support for media _queries_ depends on the browser (unsupporting browsers fail silently).
+* 
 * The `matchMedia` polyfill (included in the `/external` folder) is necessary to support the `data-media` attribute across browsers (such as IE9), even in browsers that support media queries, although it is becoming more widely supported in new browsers.
 * The `noscript` element wraps the fallback image for non-JavaScript environments, and including this wrapper prevents browsers from fetching the fallback image during page load (causing unnecessary overhead). Generally, it's a good idea to reference a small mobile optimized image here, as it's likely to be loaded in older/underpowered mobile devices.
 
@@ -119,6 +126,20 @@ browsers, you might consider using conditional comments, like this:
 
 If picturefill is deferred until after load is fired, images will not load unless the browser window is resized.
 Picturefill is intentionally exposed to the global space, in the unusual situation where you might want to defer loading of picturefill you can explicitly call window.picturefill().
+
+### Callbacks
+
+Picturefill triggers both a `picturefill:ready` and `picurefill:complete` callbacks on the document object before it begins and when it has finished all picturefills. For example, you may use it as follows:
+
+```javascript
+$(document).on('picturefill:complete', function() {
+  // Do something here, such as lazy loading of images, etc.
+});
+```
+
+### Data attributes
+
+If the `[data-src]` element has `data-` attributes besides the `data-src` and `data-media` attributes, they will be added as is to the corresponding image.
 
 ## Support
 
