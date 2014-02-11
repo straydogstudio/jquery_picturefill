@@ -1,7 +1,7 @@
 # Picturefill
 
 ## This is a jQuery Port
-This is a port of Scott Jehl's [picturefill.js](https://github.com/scottjehl/picturefill) script for responsive images. It is slightly smaller, adds [callbacks](#callbacks), and adds id, title, and [data-](#data_attributes) attributes for the resulting images. 
+This is a port of Scott Jehl's [picturefill.js](https://github.com/scottjehl/picturefill) script for responsive images. It is slightly smaller, adds [callbacks](#callbacks), and adds [data-](#data_attributes) attributes for the resulting images. 
 
 ## Intro
 
@@ -39,18 +39,16 @@ Mark up your responsive images like this.
 
 Each `span[data-src]` element’s `data-media` attribute accepts any and all CSS3 media queries—such as `min` or `max` width, or even `min-resolution` for HD (retina) displays.
 
-**NOTE:** if you need/prefer to use `div`s in your picturefill markup, you may want to grab v1.0.0: https://github.com/scottjehl/picturefill/tree/v1.0.0 . The current version here made the switch to `span` to better mimic an `img` element's inline nature, as well as fix a bug or two for WordPress users.
-
 ### Explained...
 
 Notes on the markup above...
 
-* The `span[data-picture]` element's `data-alt`, `data-id`, and `data-title` attributes are used as the `alt`, `id`, and `title` attributes for the `img` element that picturefill generates upon a successful source match.
+* The `span[data-picture]` element's `alt` attribute is used as alternate text for the `img` element that picturefill generates upon a successful source match.
 * The `span[data-picture]` element can contain any number of `span[data-source]` elements. The above example may contain more than the average situation may call for.
 * Each `span[data-src]` element must have a `data-src` attribute specifying the image path.
 * It's generally a good idea to include one source element with no `media` qualifier, so it'll apply everywhere - typically a mobile-optimized image is ideal here.
 * Each `[data-src]` element can have an optional `[data-media]` attribute to make it apply in specific media settings. Both media types and queries can be used, like a native `media` attribute, but support for media _queries_ depends on the browser (unsupporting browsers fail silently).
-* 
+* Other `data-` attributes are transferred from the `[data-src]` element to the image.
 * The `matchMedia` polyfill (included in the `/external` folder) is necessary to support the `data-media` attribute across browsers (such as IE9), even in browsers that support media queries, although it is becoming more widely supported in new browsers.
 * The `noscript` element wraps the fallback image for non-JavaScript environments, and including this wrapper prevents browsers from fetching the fallback image during page load (causing unnecessary overhead). Generally, it's a good idea to reference a small mobile optimized image here, as it's likely to be loaded in older/underpowered mobile devices.
 

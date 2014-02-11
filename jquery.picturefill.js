@@ -26,9 +26,7 @@
         var matchedEl = $(matches.pop());
         if (!picImg.length || picImg.parent("NOSCRIPT").length) {
           picImg = $("<img>");
-          $.each(['alt','id','title'],function(i,at) {
-            picImg.attr(at, picfill.attr("data-"+at));
-          });
+          picImg.attr('alt', picfill.attr("data-alt"));
         } else if (matchedEl === picImg.parent('noscript')) {
           // Skip further actions if the correct image is already in place
           return true;
@@ -41,7 +39,7 @@
           }
         });
         $.each(matchedEl[0].attributes, function(i,at) {
-          if (/^data-/.test(at.name) && at.name !== 'data-src' && at.name !== 'data-media' && at.name !== 'data-id' && at.name !== 'data-title') {
+          if (/^data-/.test(at.name) && at.name !== 'data-src' && at.name !== 'data-media') {
             picImg.attr(at.name, at.value);
           }
         });
