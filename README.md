@@ -127,7 +127,13 @@ Picturefill is intentionally exposed to the global space, in the unusual situati
 
 ### Callbacks
 
-Picturefill triggers both a `picturefill:ready` and `picurefill:complete` callbacks on the document object before it begins and when it has finished all picturefills. For example, you may use it as follows:
+Picturefill triggers these events:
+
+* `picturefill:ready`: Called on the document before processing begins
+* `picturefill:active`: Called on the `span[data-src]` element when it is made active
+* `picurefill:complete`: Called on the document when it has finished all picturefills
+
+For example, you may use it as follows:
 
 ```javascript
 $(document).on('picturefill:complete', function() {

@@ -27,25 +27,26 @@
         if (!picImg.length || picImg.parent("NOSCRIPT").length) {
           picImg = $("<img>");
           picImg.attr('alt', picfill.attr("data-alt"));
-        } else if (matchedEl === picImg.parent('noscript')) {
+        } else if (matchedEl[0] === picImg[0].parentNode) {
           // Skip further actions if the correct image is already in place
           return true;
         }
 
         picImg.attr('src', matchedEl.attr("data-src"));
         $.each(picImg[0].attributes, function(i,at) {
-          if (/^data-/.test(at.name)) {
+          if (at && /^data-/.test(at.name)) {
             picImg.removeAttr(at.name);
           }
         });
         $.each(matchedEl[0].attributes, function(i,at) {
-          if (/^data-/.test(at.name) && at.name !== 'data-src' && at.name !== 'data-media') {
+          if (at && /^data-/.test(at.name) && at.name !== 'data-src' && at.name !== 'data-media') {
             picImg.attr(at.name, at.value);
           }
         });
         matchedEl.append( picImg );
         picImg.removeAttr("width");
         picImg.removeAttr("height");
+        matchedEl.trigger('picturefill:active');
       } else if (picImg) {
         picImg.remove();
       }
